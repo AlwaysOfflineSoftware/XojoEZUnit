@@ -3,13 +3,25 @@ XojoEZUnit
 
 A Unit Testing framework for Xojo.Trimmed and simplified for rapid and easy unit testing.
 
+Inspired and rebuilt from original XojoUnit: https://github.com/xojo/XojoUnit
+
 ## How to Use
 
 You can simply drag the Xojo_Binary file into a project to import. Then try calling static functions (no objects required!)
 
-ex:
+Simple Assert Example:
+
+Just put this anywhere in your code!
 ```
 XojoEZUnit.Assert.IsTrue(True)
+```
+
+BatchTesting:
+
+Create methods in the BatchTest Class with the prefix "test_" or another one of your choosing then use the code below.
+Different pre/post-fixes can be used with run to hit different methods in the BatchTest class. 
+```
+XojoEZUnit.BatchTest.Run() // Default prefix is "test_" but parameters let you make your own prefix or postfix
 ```
 More documentation is coming but my goal is VERY easy to understand and use!
 
@@ -29,10 +41,7 @@ Don't send me emails with your updated project.
 3. Push your changes back to GitHub.
 4. Create a "Pull Request" for your changes.
 
-These steps notify the XojoEZUnit maintainers so that the change can be reviewed for inclusion in XojoEZUnit.
-
-Here is a helpflow Github workflow document I found:
-http://www.eqqon.com/index.php/Collaborative_Github_Workflow
+I'll review pull requests when I can!
 
 Frankly, this is all still new to me so we'll see how it goes!
 
