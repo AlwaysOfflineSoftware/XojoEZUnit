@@ -1,59 +1,47 @@
 #tag Class
-Protected Class ObjectSpyTester
-	#tag Method, Flags = &h21
-		Private Function Add(x As Integer, y As Integer) As Integer
-		  Return x + y
+Protected Class Profiler
+	#tag Method, Flags = &h0
+		Shared Function GetTime() As Integer
+		  return timeToComplete //returns nanoseconds
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function Add(x As Integer, y As Integer, z As Integer) As Integer
-		  Return x + y + z
+	#tag Method, Flags = &h0
+		Shared Sub Start()
+		  startSeconds = DateTime.Now.Nanosecond
 		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub Add(x As Variant, y As Integer)
-		  Result = Add(x, y)
+		  
+		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function AddParams(ParamArray values() As Integer) As Integer
-		  Var sum As Integer
-		  
-		  For Each value As Integer In values
-		    sum = sum + value
-		  Next
-		  
-		  Return sum
-		  
-		End Function
+	#tag Method, Flags = &h0
+		Shared Sub Stop()
+		  endSeconds = DateTime.Now.Nanosecond
+		  timeToComplete= endSeconds-startSeconds
+		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function AddToArray(arr() As Dictionary) As Dictionary()
-		  arr.Add New Dictionary
-		  Return arr
+	#tag Method, Flags = &h0
+		Shared Function Stop() As Integer
+		  endSeconds = DateTime.Now.SecondsFrom1970
+		  timeToComplete= endSeconds-startSeconds
 		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Shared Function SharedAdd(x As Integer, y As Auto) As Integer
-		  Return x + y
-		  
+		  Return timeToComplete  //returns nanoseconds
 		End Function
 	#tag EndMethod
 
 
 	#tag Property, Flags = &h21
-		Private Result As Integer
+		Private Shared endSeconds As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private Shared SharedResult As Integer
+		Private Shared startSeconds As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Shared timeToComplete As Integer
 	#tag EndProperty
 
 
