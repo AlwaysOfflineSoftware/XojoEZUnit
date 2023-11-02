@@ -24,7 +24,7 @@ Protected Class Profiler
 
 	#tag Method, Flags = &h0
 		Shared Function Stop() As Integer
-		  endSeconds = DateTime.Now.SecondsFrom1970
+		  endSeconds = DateTime.Now.Nanosecond
 		  timeToComplete= endSeconds-startSeconds
 		  
 		  Return timeToComplete  //returns nanoseconds
