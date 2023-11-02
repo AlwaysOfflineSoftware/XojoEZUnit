@@ -27,9 +27,10 @@ More documentation is coming but my goal is VERY easy to understand and use!
 
 ## How to contribute
 
-You can contribute to XojoEZUnit in two ways:
+You can contribute to XojoEZUnit by:
 
 - submit changes from your Fork of XojoEZUnit
+- submit issues if you run into a error or want a feature
 - request to become a Contributor
 
 Don't send me emails with your updated project.
