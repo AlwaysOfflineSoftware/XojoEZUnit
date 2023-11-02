@@ -29,10 +29,7 @@ Don't send me emails with your updated project.
 3. Push your changes back to GitHub.
 4. Create a "Pull Request" for your changes.
 
-These steps notify the XojoEZUnit maintainers so that the change can be reviewed for inclusion in XojoEZUnit.
-
-Here is a helpflow Github workflow document I found:
-http://www.eqqon.com/index.php/Collaborative_Github_Workflow
+I'll review pull requests when I can!
 
 Frankly, this is all still new to me so we'll see how it goes!
 
