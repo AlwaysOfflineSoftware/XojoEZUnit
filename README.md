@@ -3,6 +3,8 @@ XojoEZUnit
 
 A Unit Testing framework for Xojo.Trimmed and simplified for rapid and easy unit testing.
 
+Inspired and rebuilt from original XojoUnit: https://github.com/xojo/XojoUnit
+
 ## How to Use
 
 You can simply drag the Xojo_Binary file into a project to import. Then try calling static functions (no objects required!)
