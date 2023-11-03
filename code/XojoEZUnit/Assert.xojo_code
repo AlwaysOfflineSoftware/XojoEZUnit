@@ -235,8 +235,8 @@ Protected Class Assert
 
 	#tag Method, Flags = &h0
 		Shared Sub AreNotEqual(expected As Color, actual As Color)
-		  Var expectedColor  As String= "RGB(" + expected.Red.ToString + ", " + expected.Green.ToString + ", " + expected.Blue.ToString + "," + expected.Alpha.ToString")"
-		  Var actualColor  As String= "RGB(" + actual.Red.ToString + ", " + actual.Green.ToString + ", " + actual.Blue.ToString + "," + actual.Alpha.ToString")"
+		  Var expectedColor  As String= "RGB(" + expected.Red.ToString + ", " + expected.Green.ToString + ", " + expected.Blue.ToString + "," + expected.Alpha.ToString +")"
+		  Var actualColor  As String= "RGB(" + actual.Red.ToString + ", " + actual.Green.ToString + ", " + actual.Blue.ToString + "," + actual.Alpha.ToString +")"
 		  
 		  If(expectedColor = actualColor) Then
 		    Results.Fail()
