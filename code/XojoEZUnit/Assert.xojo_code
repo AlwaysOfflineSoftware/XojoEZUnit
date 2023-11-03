@@ -50,9 +50,10 @@ Protected Class Assert
 
 	#tag Method, Flags = &h0
 		Shared Sub AreEqual(expected As Color, actual As Color)
-		  Var expectedColor, actualColor As String
+		  Var expectedColor  As String= "RGB(" + expected.Red.ToString + ", " + expected.Green.ToString + ", " + expected.Blue.ToString + ")"
+		  Var actualColor  As String= "RGB(" + actual.Red.ToString + ", " + actual.Green.ToString + ", " + actual.Blue.ToString + ")"
 		  
-		  If(expected = actual) Then
+		  If(expectedColor = actualColor) Then
 		    Results.Pass()
 		  Else
 		    Results.Fail()
@@ -125,7 +126,7 @@ Protected Class Assert
 		  actualSize = actual.LastIndex
 		  
 		  If(expectedSize <> actualSize) Then
-		    Results.Fail( )
+		    Results.Fail()
 		    Return
 		  End If
 		  
@@ -509,20 +510,6 @@ Protected Class Assert
 		  Else
 		    Results.Fail()
 		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub isPerforming(methodName as String, ExpectedMilSecToComplete as integer)
-		  Profiler.Start
-		  BatchTest.Run(methodName)
-		  Profiler.Stop
-		  
-		  if(Profiler.GetTime<=ExpectedMilSecToComplete) then
-		    Results.Pass()
-		  else
-		    Results.fail()
-		  End
 		End Sub
 	#tag EndMethod
 
