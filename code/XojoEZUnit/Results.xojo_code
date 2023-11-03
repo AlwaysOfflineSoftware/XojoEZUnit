@@ -1,8 +1,42 @@
 #tag Class
 Protected Class Results
 	#tag Method, Flags = &h0
+		Shared Sub Display()
+		  var percentHundreds as double= PercentPassed * 100.00
+		  
+		  System.DebugLog("")
+		  System.DebugLog("===XojoEZUnit Results======")
+		  System.DebugLog("=== Tests Passed: " + passCount.ToString)
+		  System.DebugLog("=== Tests Failed: " + failCount.ToString)
+		  System.DebugLog("=== Passed Percent: " + percentHundreds.ToString + "%")
+		  System.DebugLog("========================")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Sub Display(testFailed as String)
+		  var percentHundreds as double= PercentPassed * 100.00
+		  
+		  System.DebugLog("==============XojoEZUnit Results===================")
+		  System.DebugLog("=== Tests Passed: " + passCount.ToString)
+		  System.DebugLog("=== Tests Failed: " + failCount.ToString)
+		  System.DebugLog("=== Passed Percent: " + percentHundreds.ToString + "%")
+		  System.DebugLog("=== Failed on test: " + testFailed)
+		  System.DebugLog("================================================")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Shared Sub Fail()
 		  failCount= failCount+1
+		  
+		  if(Results.failedTestName<>"") then
+		    XojoEZUnit.Results.Display(Results.failedTestName)
+		  else
+		    XojoEZUnit.Results.Display()
+		  end
 		  
 		  Raise New XojoUnitTestFailedException(failedMessage,failedCode)
 		End Sub
@@ -61,6 +95,10 @@ Protected Class Results
 
 	#tag Property, Flags = &h21
 		Private Shared failedMessage As String = "A unit test exception has occurred"
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		Shared failedTestName As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

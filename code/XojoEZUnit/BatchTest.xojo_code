@@ -1,5 +1,11 @@
 #tag Class
 Protected Class BatchTest
+	#tag Method, Flags = &h21
+		Private Shared Sub Finished()
+		  XojoEZUnit.Results.Display
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Shared Sub Run(testsIdentifier as String = "test_", postfix as boolean = False)
 		  if(testsIdentifier.Lowercase<>"run") then
@@ -27,6 +33,7 @@ Protected Class BatchTest
 		    For Each method As Introspection.MethodInfo In Introspection.GetType(batch).GetMethods
 		      for Each testName as String in tests
 		        if(method.Name= testName) then
+		          Results.failedTestName=method.Name
 		          method.Invoke(batch)
 		        end
 		      next
@@ -34,7 +41,7 @@ Protected Class BatchTest
 		  else
 		    Raise New InvalidArgumentException("Tests cannot be identified with the word 'run'",-1)
 		  end
-		  
+		  Finished()
 		End Sub
 	#tag EndMethod
 
