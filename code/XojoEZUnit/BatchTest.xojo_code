@@ -2,13 +2,13 @@
 Protected Class BatchTest
 	#tag Method, Flags = &h21
 		Private Shared Sub Finished()
-		  XojoEZUnit.Results.Display
+		  XojoEZUnit.Results.Display(testsThatRan)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Shared Sub Run(testsIdentifier as String = "test_", postfix as boolean = False)
-		  if(testsIdentifier.Lowercase<>"run") then
+		  If(testsIdentifier.Lowercase<>"run") Then
 		    Var batch as New BatchTest
 		    Var tests() as String
 		    Var identifierLength as Integer= testsIdentifier.Length
@@ -30,15 +30,22 @@ Protected Class BatchTest
 		      Next
 		    end
 		    
+		    Var runCount As Integer= 0
 		    For Each method As Introspection.MethodInfo In Introspection.GetType(batch).GetMethods
 		      for Each testName as String in tests
-		        if(method.Name= testName) then
-		          Results.failedTestName=method.Name
+		        If(method.Name= testName) Then
 		          method.Invoke(batch)
-		        end
+		          If(Results.SearchLogs(runCount)) then
+		            testsThatRan.Add(method.Name + " | PASS")
+		          Else
+		            testsThatRan.Add(method.Name + " | FAIL")
+		          End
+		          runCount= runCount+1
+		        End
 		      next
 		    Next
-		  else
+		    
+		  Else
 		    Raise New InvalidArgumentException("Tests cannot be identified with the word 'run'",-1)
 		  end
 		  Finished()
@@ -48,16 +55,21 @@ Protected Class BatchTest
 	#tag Method, Flags = &h0
 		Sub Test_MyBatch()
 		  Results.SetFailMessage("TEST 1 FAIL")
-		  XojoEZUnit.Assert.IsFalse(False)
+		  XojoEZUnit.Assert.IsFalse(True)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Test_MyBatch2()
 		  Results.SetFailMessage("TEST 2 FAIL")
-		  XojoEZUnit.Assert.IsFalse(True)
+		  XojoEZUnit.Assert.IsTrue(True)
 		End Sub
 	#tag EndMethod
+
+
+	#tag Property, Flags = &h21
+		Private Shared testsThatRan() As String
+	#tag EndProperty
 
 
 	#tag ViewBehavior

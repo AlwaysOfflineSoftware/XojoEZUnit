@@ -2,28 +2,54 @@
 Protected Class Results
 	#tag Method, Flags = &h0
 		Shared Sub Display()
-		  var percentHundreds as double= PercentPassed * 100.00
+		  Var percentHundreds As Double= PercentPassed * 100.00
 		  
-		  System.DebugLog("")
 		  System.DebugLog("===XojoEZUnit Results======")
+		  System.DebugLog(" ")
 		  System.DebugLog("=== Tests Passed: " + passCount.ToString)
 		  System.DebugLog("=== Tests Failed: " + failCount.ToString)
 		  System.DebugLog("=== Passed Percent: " + percentHundreds.ToString + "%")
+		  System.DebugLog(" ")
 		  System.DebugLog("========================")
 		  
+		  If(testResultsFile<>Nil) Then
+		    Var resultsOut As String="Tests Passed: " + passCount.ToString _
+		    + EndOfLine + "Tests Failed: " + failCount.ToString _
+		    + EndOfLine + "Passed Percent: " + percentHundreds.ToString + "%"
+		    WriteToFile(testResultsFile,resultsOut,True)
+		    System.DebugLog("results written to: " + testResultsFile.NativePath)
+		  End
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Sub Display(testFailed as String)
-		  var percentHundreds as double= PercentPassed * 100.00
+		Shared Sub Display(testsRecords() as String)
+		  Var percentHundreds As Double= PercentPassed * 100.00
 		  
-		  System.DebugLog("==============XojoEZUnit Results===================")
+		  System.DebugLog("===XojoEZUnit Results======")
+		  System.DebugLog(" ")
 		  System.DebugLog("=== Tests Passed: " + passCount.ToString)
 		  System.DebugLog("=== Tests Failed: " + failCount.ToString)
 		  System.DebugLog("=== Passed Percent: " + percentHundreds.ToString + "%")
-		  System.DebugLog("=== Failed on test: " + testFailed)
-		  System.DebugLog("================================================")
+		  System.DebugLog(" ")
+		  System.DebugLog("=== Tests That Ran: ")
+		  For Each record As String In testsRecords
+		    System.DebugLog("======" + record)
+		  Next
+		  System.DebugLog(" ")
+		  System.DebugLog("========================")
+		  
+		  If(testResultsFile<>Nil) Then
+		    Var resultsOut As String="Tests Passed: " + passCount.ToString _
+		    + EndOfLine + "Tests Failed: " + failCount.ToString _
+		    + EndOfLine + "Passed Percent: " + percentHundreds.ToString + "%"_
+		    + EndOfLine + "Tests That Ran: "
+		    For Each record As String In testsRecords
+		      resultsOut= resultsOut + EndOfLine + "=" + record
+		    Next
+		    WriteToFile(testResultsFile,resultsOut,True)
+		    System.DebugLog("results written to: " + testResultsFile.NativePath)
+		  End
 		  
 		End Sub
 	#tag EndMethod
@@ -31,20 +57,20 @@ Protected Class Results
 	#tag Method, Flags = &h0
 		Shared Sub Fail()
 		  failCount= failCount+1
+		  ResultsLog.add(False)
 		  
-		  if(Results.failedTestName<>"") then
-		    XojoEZUnit.Results.Display(Results.failedTestName)
-		  else
-		    XojoEZUnit.Results.Display()
-		  end
+		  If(Not failOver) Then
+		    Raise New XojoUnitTestFailedException(failedMessage,failedCode)
+		  End
 		  
-		  Raise New XojoUnitTestFailedException(failedMessage,failedCode)
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Shared Sub Pass()
 		  passCount= passCount+1
+		  ResultsLog.add(True)
 		  
 		End Sub
 	#tag EndMethod
@@ -68,6 +94,12 @@ Protected Class Results
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Shared Function SearchLogs(logNum as integer) As Boolean
+		  Return ResultsLog(logNum)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Shared Sub SetFailMessage(msg as String, code as integer = -1)
 		  if(msg<>"") then
 		    failedMessage= msg
@@ -80,6 +112,45 @@ Protected Class Results
 		  else
 		    failedCode= -1
 		  end
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Sub SetResultsMode(continueOnFail as boolean, writeResultsToFile as FolderItem)
+		  failOver=continueOnFail
+		  testResultsFile=writeResultsToFile
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Sub WriteToFile(folder as folderitem, data as string, overwrite as boolean)
+		  Var fullFilePath As FolderItem= folder
+		  Var output As TextOutputStream
+		  
+		  Try
+		    If(overwrite) Then // Write or Overwrite
+		      output= TextOutputStream.Create(fullFilePath)
+		      output.Encoding = Encodings.SystemDefault
+		      output.WriteLine(data)
+		      output.Close
+		    Else // Write New
+		      If(fullFilePath= Nil) Then
+		        output= TextOutputStream.Create(fullFilePath)
+		        output.Encoding = Encodings.SystemDefault
+		        output.WriteLine(data)
+		        output.Close
+		      Else // Append
+		        output= TextOutputStream.Open(fullFilePath)
+		        output.Encoding = Encodings.SystemDefault
+		        output.Write(data)
+		        output.Close
+		      End If
+		    End
+		  Catch e As IOException
+		    System.DebugLog(e.Message)
+		  End Try
+		  
 		  
 		End Sub
 	#tag EndMethod
@@ -101,12 +172,24 @@ Protected Class Results
 		Shared failedTestName As String
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private Shared failOver As boolean = False
+	#tag EndProperty
+
 	#tag Property, Flags = &h0
 		Shared passCount As Integer = 0
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private Shared ResultsLog() As boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private Shared testPercentage As Double = 0.0
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Shared testResultsFile As FolderItem
 	#tag EndProperty
 
 
