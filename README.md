@@ -58,6 +58,10 @@ Xojo 2019 Release 2 or later is required for XojoUnit with Desktop and Console. 
 
 ## Release Notes
 
+### 0.6 (Nov. 20, 2023)
+You can now continue tests on failure of an assertion and write test results to a file using the function:
+XojoEZUnit.Results.SetResultsMode(continueOnFail as boolean, writeResultsToFile as FolderItem). <-Thanks to feedback!!
+
 ### 0.5 (Nov. 2, 2023)
 Initial upload. Give it a try!
 
