@@ -1,9 +1,15 @@
-XojoEZUnit
+XojoEZUnit  [![License](https://img.shields.io/badge/License-GPLv2-green)](#license)
 ========
 
-A Unit Testing framework for Xojo.Trimmed and simplified for rapid and easy unit testing.
+A Unit Testing framework for Xojo, trimmed and simplified for rapid and easy unit testing and compatible with both API 1 & 2. This project was inspired and rebuilt from original XojoUnit: https://github.com/xojo/XojoUnit
 
-Inspired and rebuilt from original XojoUnit: https://github.com/xojo/XojoUnit
+<dl>
+  <b>If you enjoy my work  <a class="gumroad-button" href="https://alwaysoffline.gumroad.com/l/Thanks" data-gumroad-overlay-checkout="true">Send a thank you tip on Gumroad!</a></b>
+</dl>
+
+## License
+
+Released under <a href=https://www.gnu.org/licenses/old-licenses/gpl-2.0.md>GPLv2</a> by Always Offline Software.
 
 ## How to Use
 
