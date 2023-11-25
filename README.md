@@ -7,10 +7,6 @@ A Unit Testing framework for Xojo, trimmed and simplified for rapid and easy uni
   <b>If you enjoy my work  <a class="gumroad-button" href="https://alwaysoffline.gumroad.com/l/Thanks" data-gumroad-overlay-checkout="true">Send a thank you tip on Gumroad!</a></b>
 </dl>
 
-## License
-
-Released under <a href=https://www.gnu.org/licenses/old-licenses/gpl-2.0.md>GPLv2</a> by Always Offline Software.
-
 ## How to Use
 
 You can simply drag the Xojo_Binary file into a project to import. Then try calling static functions (no objects required!)
@@ -39,8 +35,6 @@ You can contribute to XojoEZUnit by:
 - submit issues if you run into a error or want a feature
 - request to become a Contributor
 
-Don't send me emails with your updated project.
-
 ### Forking XojoEZUnit
 
 1. Click the Fork button at the top.
@@ -61,6 +55,10 @@ If you actively submit good changes, I'll probably make you a Contributor so tha
 Xojo 2020 Release 2 or later is required to use XojoUnit with iOS and Web. (from XojoUnit requirements)
 
 Xojo 2019 Release 2 or later is required for XojoUnit with Desktop and Console. (from XojoUnit requirements)
+
+## License
+
+Released under <a href=https://www.gnu.org/licenses/old-licenses/gpl-2.0.md>GPLv2</a> by Always Offline Software.
 
 ## Release Notes
 
