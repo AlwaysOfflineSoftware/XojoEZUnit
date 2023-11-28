@@ -62,6 +62,9 @@ Released under <a href=https://www.gnu.org/licenses/old-licenses/gpl-2.0.md>GPLv
 
 ## Release Notes
 
+### 0.6.1 (Nov. 27, 2023)
+Profiler can now log memory usage. Added needed SetResultsMode variant.
+
 ### 0.6 (Nov. 20, 2023)
 You can now continue tests on failure of an assertion and write test results to a file using the function:
 XojoEZUnit.Results.SetResultsMode(continueOnFail as boolean, writeResultsToFile as FolderItem). <-Thanks to feedback!!
