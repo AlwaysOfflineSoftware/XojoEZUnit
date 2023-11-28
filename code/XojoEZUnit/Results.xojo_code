@@ -117,6 +117,12 @@ Protected Class Results
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Shared Sub SetResultsMode(continueOnFail as boolean)
+		  failOver=continueOnFail
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Shared Sub SetResultsMode(continueOnFail as boolean, writeResultsToFile as FolderItem)
 		  failOver=continueOnFail
 		  testResultsFile=writeResultsToFile
