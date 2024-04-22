@@ -207,29 +207,25 @@ Protected Class Assert
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Sub AreEqual(expected As String, actual As String)
-		  
-		  var expectedArray() as String= expected.ToArray
-		  var actualArray() as String= actual.ToArray
-		  var passingTest as Boolean= True
-		  
-		  if(expectedArray.Count=actualArray.Count) then
-		    for i as Integer=0 to expectedArray.count-1
-		      if(expectedArray(i).Asc=actualArray(i).Asc) then
-		        Continue
+		Shared Sub AreEqual(expected as String, actual as String, caseSensitive as Boolean = True)
+		  If(expected.Length=actual.Length) Then
+		    If(caseSensitive) Then
+		      If(expected.Compare(actual,ComparisonOptions.CaseSensitive)>0) Then
+		        Results.Pass()
 		      else
 		        Results.Fail()
-		      end
-		    next
-		  else
+		      End
+		    Else
+		      If(expected.Compare(actual,ComparisonOptions.CaseInsensitive)>0) Then
+		        Results.Pass()
+		      Else
+		        Results.Fail()
+		      End
+		    End
+		  Else
 		    Results.Fail()
 		  end
 		  
-		  If(expected = actual) Then
-		    Results.Pass()
-		  Else
-		    Results.Fail()
-		  End If
 		End Sub
 	#tag EndMethod
 

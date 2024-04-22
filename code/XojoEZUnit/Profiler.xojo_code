@@ -67,16 +67,9 @@ Protected Class Profiler
 		  profilerRunning= False
 		  
 		  Return timeToComplete  //returns nanoseconds
+		  
 		End Function
 	#tag EndMethod
-
-
-	#tag Note, Name = To Do
-		Get this Threaded
-		Add things to enable for profiling coverage (Memory Logging, usages, ect)
-		
-		
-	#tag EndNote
 
 
 	#tag Property, Flags = &h21
