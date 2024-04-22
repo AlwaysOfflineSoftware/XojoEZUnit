@@ -184,7 +184,7 @@ Protected Class Assert
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Sub AreEqual(expected() As String, actual() As String)
+		Shared Sub AreEqual(expected() as String, actual() as String, caseSensitive as boolean = True)
 		  Var expectedSize, actualSize As Integer
 		  
 		  expectedSize = expected.LastIndex
@@ -193,16 +193,28 @@ Protected Class Assert
 		  If(expectedSize <> actualSize) Then
 		    Results.Fail()
 		    Return
-		  End If
-		  
-		  For i As Integer = 0 To expectedSize
-		    If(expected(i) <> actual(i)) Then
-		      Results.Fail()
-		      Return
-		    End If
-		  Next
+		  Else
+		    If(caseSensitive) Then
+		      For i As Integer = 0 To expectedSize
+		        If(expected(i).Compare(actual(i),ComparisonOptions.CaseSensitive)> 0) Then
+		          Results.Fail()
+		          Return
+		        End
+		      Next
+		    Else
+		      For i As Integer = 0 To expectedSize
+		        If(expected(i).Compare(actual(i),ComparisonOptions.CaseInsensitive)> 0) Then
+		          Results.Fail()
+		          Return
+		        End
+		      Next
+		    End
+		  End
 		  
 		  Results.Pass()
+		  Return
+		  
+		  
 		End Sub
 	#tag EndMethod
 
