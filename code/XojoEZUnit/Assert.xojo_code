@@ -1,54 +1,6 @@
 #tag Class
 Protected Class Assert
 	#tag Method, Flags = &h0
-		Shared Sub AreDifferent(expected As Object, actual As Object)
-		  If(expected Is actual) Then
-		    Results.Fail()
-		  Else
-		    Results.Pass()
-		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub AreDifferent(expected() As String, actual() As String)
-		  Var expectedSize, actualSize As Integer
-		  
-		  expectedSize = expected.LastIndex
-		  actualSize = actual.LastIndex
-		  
-		  If(expectedSize <> actualSize) Then
-		    Results.Pass()
-		    Return
-		  End If
-		  
-		  For i As Integer = 0 To expectedSize
-		    If(Not AreSameBytes(expected(i), actual(i))) Then
-		      Results.Pass()
-		      Return
-		    ElseIf(expected(i).Encoding <> actual(i).Encoding) Then
-		      Results.Pass()
-		      Return
-		    End If
-		  Next
-		  
-		  Results.Fail()
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub AreDifferent(expected As String, actual As String)
-		  If(AreSameBytes(expected, actual)) Then
-		    Results.Fail()
-		  ElseIf(Not expected.IsEmpty And expected.Encoding= actual.Encoding) Then
-		    Results.Fail()
-		  Else
-		    Results.Pass()
-		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Shared Sub AreEqual(expected() As Color, actual() As Color)
 		  Var expectedSize, actualSize As Double
 		  Var expectedColor, actualColor  As String
@@ -216,6 +168,16 @@ Protected Class Assert
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Shared Sub AreEqual(expected As Object, actual As Object)
+		  If expected = actual Then
+		    Results.Pass()
+		  Else
+		    Results.Fail()
+		  End
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Shared Sub AreEqual(expected() as String, actual() as String, caseSensitive as boolean = True)
 		  Var expectedSize, actualSize As Integer
 		  
@@ -255,21 +217,52 @@ Protected Class Assert
 		  If(expected.Length=actual.Length) Then
 		    If(caseSensitive) Then
 		      If(expected.Compare(actual,ComparisonOptions.CaseSensitive)>0) Then
-		        Results.Pass()
-		      else
 		        Results.Fail()
+		      else
+		        Results.Pass()
 		      End
 		    Else
 		      If(expected.Compare(actual,ComparisonOptions.CaseInsensitive)>0) Then
-		        Results.Pass()
-		      Else
 		        Results.Fail()
+		      Else
+		        Results.Pass()
 		      End
 		    End
 		  Else
 		    Results.Fail()
 		  end
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Sub AreNotEqual(expected() As Color, actual() As Color)
+		  Var expectedSize, actualSize As Double
+		  Var expectedColor, actualColor  As String
+		  expectedSize = expected.LastIndex
+		  actualSize = actual.LastIndex
+		  
+		  
+		  If(expectedSize <> actualSize) Then
+		    Results.Pass()
+		    Return
+		  Else
+		    For i As Integer = 0 To expectedSize
+		      expectedColor= "RGB(" + expected(i).Red.ToString + ", " +_
+		       expected(i).Green.ToString + ", " + expected(i).Blue.ToString + "," +_
+		       expected(i).Alpha.ToString + ")"
+		      actualColor= "RGB(" + actual(i).Red.ToString + ", " +_ 
+		      actual(i).Green.ToString + ", " + actual(i).Blue.ToString + "," +_ 
+		      actual(i).Alpha.ToString + ")"
+		      
+		      If(expectedColor <> actualColor) Then
+		        Results.Pass()
+		        Return
+		      End
+		    Next
+		  End
+		  
+		  Results.Fail()
 		End Sub
 	#tag EndMethod
 
@@ -409,7 +402,17 @@ Protected Class Assert
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Sub AreNotEqual(expected() As String, actual() As String)
+		Shared Sub AreNotEqual(expected As Object, actual As Object)
+		  If expected = actual Then
+		    Results.Fail()
+		  Else
+		    Results.Pass()
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Sub AreNotEqual(expected() as String, actual() as String, caseSensitive as boolean = True)
 		  Var expectedSize, actualSize As Integer
 		  
 		  expectedSize = expected.LastIndex
@@ -418,108 +421,52 @@ Protected Class Assert
 		  If(expectedSize <> actualSize) Then
 		    Results.Pass()
 		    Return
-		  End If
+		  Else
+		    If(caseSensitive) Then
+		      For i As Integer = 0 To expectedSize
+		        If(expected(i).Compare(actual(i),ComparisonOptions.CaseSensitive)> 0) Then
+		          Results.Pass()
+		          Return
+		        End
+		      Next
+		    Else
+		      For i As Integer = 0 To expectedSize
+		        If(expected(i).Compare(actual(i),ComparisonOptions.CaseInsensitive)> 0) Then
+		          Results.Pass()
+		          Return
+		        End
+		      Next
+		    End
+		  End
 		  
-		  For i As Integer = 0 To expectedSize
-		    If(expected(i) <> actual(i)) Then
-		      Results.Pass()
-		      Return
-		    End If
-		  Next
+		  Results.Fail()
+		  Return
 		  
-		  Results.fail()
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Sub AreNotEqual(expected As String, actual As String)
-		  
-		  var expectedArray() as String= expected.ToArray
-		  var actualArray() as String= actual.ToArray
-		  var passingTest as Boolean= True
-		  
-		  if(expectedArray.Count=actualArray.Count) then
-		    for i as Integer=0 to expectedArray.count-1
-		      if(expectedArray(i).Asc=actualArray(i).Asc) then
-		        Continue
-		      else
+		Shared Sub AreNotEqual(expected as String, actual as String, caseSensitive as Boolean = True)
+		  If(expected.Length=actual.Length) Then
+		    If(caseSensitive) Then
+		      If(expected.Compare(actual,ComparisonOptions.CaseSensitive)>0) Then
 		        Results.Pass()
-		      end
-		    next
-		  else
-		    Results.Pass()
-		  end
-		  
-		  If(expected = actual) Then
-		    Results.Fail()
-		  Else
-		    Results.Pass()
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub AreSame(expected As Object, actual As Object)
-		  If(expected Is actual) Then
-		    Results.Pass()
+		      Else
+		        Results.Fail()
+		      End
+		    Else
+		      If(expected.Compare(actual,ComparisonOptions.CaseInsensitive)>0) Then
+		        Results.Pass()
+		      Else
+		        Results.Fail()
+		      End
+		    End
 		  Else
 		    Results.Fail()
-		  End If
+		  End
+		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub AreSame(expected() As String, actual() As String)
-		  Var expectedSize, actualSize As Integer
-		  
-		  expectedSize = expected.LastIndex
-		  actualSize = actual.LastIndex
-		  
-		  If(expectedSize <> actualSize) Then
-		    Results.Fail()
-		    Return
-		  End If
-		  
-		  For i As Integer = 0 To expectedSize
-		    If(Not AreSameBytes(expected(i), actual(i))) Then
-		      Results.Fail()
-		      Return
-		    ElseIf(expected(i).Encoding <> actual(i).Encoding) Then
-		      Results.Fail()
-		      Return
-		    End If
-		  Next
-		  
-		  Results.Pass()
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Shared Sub AreSame(expected As String, actual As String)
-		  If(AreSameBytes(expected, actual)) Then
-		    Results.Pass()
-		  ElseIf(Not expected.IsEmpty And expected.Encoding= actual.Encoding) Then
-		    Results.Pass()
-		  Else
-		    Results.Fail()
-		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Shared Function AreSameBytes(s1 As String, s2 As String) As Boolean
-		  If(s1.IsEmpty And s2.IsEmpty) Then
-		    Return True
-		  ElseIf(s1.Bytes <> s2.Bytes) Then
-		    Return False
-		  Else
-		    Var mb1 As MemoryBlock = s1
-		    Var mb2 As MemoryBlock = s2
-		    Return mb1 = mb2
-		  End If
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
