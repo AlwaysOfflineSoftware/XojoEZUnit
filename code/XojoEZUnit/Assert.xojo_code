@@ -49,6 +49,37 @@ Protected Class Assert
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Shared Sub AreEqual(expected() As Color, actual() As Color)
+		  Var expectedSize, actualSize As Double
+		  Var expectedColor, actualColor  As String
+		  expectedSize = expected.LastIndex
+		  actualSize = actual.LastIndex
+		  
+		  
+		  If(expectedSize <> actualSize) Then
+		    Results.Fail()
+		    Return
+		  Else
+		    For i As Integer = 0 To expectedSize
+		      expectedColor= "RGB(" + expected(i).Red.ToString + ", " +_
+		       expected(i).Green.ToString + ", " + expected(i).Blue.ToString + "," +_
+		       expected(i).Alpha.ToString + ")"
+		      actualColor= "RGB(" + actual(i).Red.ToString + ", " +_ 
+		      actual(i).Green.ToString + ", " + actual(i).Blue.ToString + "," +_ 
+		      actual(i).Alpha.ToString + ")"
+		      
+		      If(expectedColor <> actualColor) Then
+		        Results.Fail()
+		        Return
+		      End
+		    Next
+		  End
+		  
+		  Results.Pass()
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Shared Sub AreEqual(expected As Color, actual As Color)
 		  Var expectedColor  As String= "RGB(" + expected.Red.ToString + ", " + expected.Green.ToString + ", " + expected.Blue.ToString + "," + expected.Alpha.ToString + ")"
 		  Var actualColor  As String= "RGB(" + actual.Red.ToString + ", " + actual.Green.ToString + ", " + actual.Blue.ToString + "," + actual.Alpha.ToString + ")"
@@ -57,7 +88,7 @@ Protected Class Assert
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		End Sub
 	#tag EndMethod
 
@@ -67,19 +98,19 @@ Protected Class Assert
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Shared Sub AreEqual(expected As DateTime, actual As DateTime)
-		  If(expected Is Nil Xor actual Is Nil) Then
+		  If(expected Is Nil or actual Is Nil) Then
 		    Results.Fail()
 		  ElseIf(expected Is actual Or expected.SecondsFrom1970 = actual.SecondsFrom1970) Then
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		End Sub
 	#tag EndMethod
 
@@ -93,14 +124,14 @@ Protected Class Assert
 		  If(expectedSize <> actualSize) Then
 		    Results.Fail()
 		    Return
-		  End If
-		  
-		  For i As Integer = 0 To expectedSize
-		    If(expected(i) <> actual(i)) Then
-		      Results.Fail()
-		      Return
-		    End If
-		  Next
+		  Else
+		    For i As Integer = 0 To expectedSize
+		      If(expected(i) <> actual(i)) Then
+		        Results.Fail()
+		        Return
+		      End
+		    Next
+		  End
 		  
 		  Results.Pass()
 		End Sub
@@ -114,7 +145,7 @@ Protected Class Assert
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		End Sub
 	#tag EndMethod
 
@@ -128,14 +159,15 @@ Protected Class Assert
 		  If(expectedSize <> actualSize) Then
 		    Results.Fail()
 		    Return
-		  End If
+		  Else
+		    For i As Integer = 0 To expectedSize
+		      If(expected(i) <> actual(i)) Then
+		        Results.Fail()
+		        Return
+		      End
+		    Next
+		  End
 		  
-		  For i As Integer = 0 To expectedSize
-		    If(expected(i) <> actual(i)) Then
-		      Results.Fail()
-		      Return
-		    End If
-		  Next
 		  
 		  Results.Pass()
 		End Sub
@@ -147,7 +179,7 @@ Protected Class Assert
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		End Sub
 	#tag EndMethod
 
@@ -156,12 +188,12 @@ Protected Class Assert
 		  If(expected = actual) Then
 		    Results.Pass()
 		    Return
-		  End If
+		  End
 		  
 		  If(expected Is Nil Xor actual Is Nil) Then
 		    Results.Fail()
 		    Return
-		  End If
+		  End
 		  
 		  Var expectedSize As Integer = expected.Size
 		  Var actualSize As Integer = actual.Size
@@ -169,7 +201,7 @@ Protected Class Assert
 		  If(expectedSize <> actualSize) Then
 		    Results.Fail()
 		    Return
-		  End If
+		  End
 		  
 		  Var sExpected As String = expected.StringValue(0, expectedSize)
 		  Var sActual As String = actual.StringValue(0, actualSize)
@@ -178,7 +210,7 @@ Protected Class Assert
 		    Results.Pass()
 		  Else
 		    Results.Fail()
-		  End If
+		  End
 		  
 		End Sub
 	#tag EndMethod
